@@ -1,6 +1,6 @@
 name: cicd
 on: 
-   workflow-dispatch:
+   workflow_dispatch:
 jobs:
   code: 
     runs-on: ubuntu-latest
