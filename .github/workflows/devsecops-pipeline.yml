@@ -6,6 +6,7 @@ on:
 
 
 jobs:
+    # CI (Continous integration with security scanning)
     code-quality:
         uses: ./.github/workflows/code-quality.yml
 
@@ -17,3 +18,10 @@ jobs:
 
     docker-scan:    
         uses: ./.github/workflows/docker-lint.yml
+
+    # build once security scans complete
+
+    build:
+        needs: [code-quality, secrets-scan, dependency-scan, docker-scan]
+        uses: ./.github/workflows/docker-build-push.yml
+        secrets: inherit 
