@@ -24,8 +24,8 @@ jobs:
                 key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
                 script: |
                    echo "Installling required packages and folders"
-                   sudo apt-get update && sudo apt-get install docker.io docker-compose-v2-y
-                   sudo usermod -aG docker $USER && newgrp docker
+                   sudo apt-get update && sudo apt-get install docker.io docker-compose-v2 -y
+                   sudo usermod -aG docker $USER
                    mkdir -p devops
 
           - name: copy the docker compose file
@@ -46,7 +46,8 @@ jobs:
                 script: |
                    echo "Running app"
                    
+                   export DOCKERHUB_USER=${{ vars.DOCKERHUB_USER }}
+                   export DOCKER_TAG=${{ github.sha }}
                    echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -username ${{ vars.DOCKERHUB_USER }} --pasword-stdin
-                   export HEAD_SHA=${{env.DOCKER_TAG }}
                    cd ~/devops && docker compose down && docker compose up -d --build --force-recreate --pull always
                     
