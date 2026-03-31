@@ -1,0 +1,5 @@
+# ignore vulnerability for 
+
+#libgc
+
+CVE-2026-0861
